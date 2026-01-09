@@ -48,6 +48,11 @@ export async function GET(
 
     const fields = auftrag.fields as any
     
+    // Debug: Log was Airtable für Created Time zurückgibt
+    // Airtable gibt createdTime als Property des Records zurück, nicht als Field
+    const createdTime = (auftrag as any).createdTime || null
+    const lastModifiedTime = (auftrag as any).lastModifiedTime || null
+    
     // Aktueller Step: Wenn es eine ID ist, hole den Namen
     let aktuellerStepName = null
     const aktuellerStepValue = fields['Aktueller Step'] || fields['Aktueller Auftragsschritt'] || null
@@ -97,8 +102,12 @@ export async function GET(
         aktuellerStep: aktuellerStepName,
         kunde: fields.Kunde || 'Unbekannt',
         prioritaet: fields['Priorität'] || fields['Prioritaet'] || fields['Priority'] || 'Normal',
-        erstelltAm: fields['Erstellt am'] || fields['Created Time'] || null,
-        aktualisiertAm: fields['Aktualisiert am'] || fields['Last Modified Time'] || null,
+        // Airtable gibt Created Time und Last Modified Time als ISO-Strings zurück
+        // Diese werden direkt übernommen und im Frontend formatiert
+        // Airtable gibt createdTime und lastModifiedTime als Record-Properties zurück (nicht als Fields)
+        // Diese sind ISO-Strings in UTC
+        erstelltAm: createdTime || fields['Erstellt am'] || fields['Created Time'] || null,
+        aktualisiertAm: lastModifiedTime || fields['Aktualisiert am'] || fields['Last Modified Time'] || null,
         offeneStoerungen: offeneStoerungen,
         ampel: ampel,
         fields: fields, // Für Initialisierungs-Prüfung

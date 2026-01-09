@@ -41,12 +41,25 @@ Die App läuft dann auf [http://localhost:3000](http://localhost:3000)
 /lib          - Utilities, Airtable Client
 ```
 
-## Nächste Schritte
+## Status
 
-- [ ] Airtable Connection testen
-- [ ] Auftrag-Liste aus Airtable lesen
-- [ ] Swimlane-Komponente bauen
-- [ ] CRUD-Operationen implementieren
+✅ **Grundsetup komplett:**
+- Airtable Connection funktioniert
+- Auftrag-Liste aus Airtable lesen
+- Swimlane-Komponente vorhanden
+- CRUD-Operationen implementiert
+- Step-Completion funktioniert
+- Auftrag-Initialisierung vorhanden
+
+## Nächste Schritte (optional)
+
+- [ ] Phase-Ende-Stop (Gate-Check vor Phase-Wechsel)
+- [ ] Verantwortlichkeiten (Lane-Owner, Phase-Owner)
+- [ ] Incidents/Störungen Feature
+- [ ] Macro-Übersicht/Dashboard
+- [ ] Drag & Drop in Swimlane optimieren
+- [ ] Error Handling verbessern
+- [ ] Loading States optimieren
 
 
 

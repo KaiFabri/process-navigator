@@ -83,13 +83,33 @@ export default function AuftragDetailPage() {
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return 'Nicht verfügbar'
     try {
-      const date = new Date(dateStr)
-      return date.toLocaleDateString('de-DE', {
+      // Airtable gibt Datumswerte als ISO-String zurück
+      // Wenn es ein ISO-String ist, wird er korrekt als UTC interpretiert
+      // und dann in die lokale Zeitzone konvertiert
+      let date: Date
+      
+      // Prüfe ob es ein ISO-String ist (enthält 'T' oder 'Z')
+      if (typeof dateStr === 'string' && (dateStr.includes('T') || dateStr.includes('Z'))) {
+        // ISO-String: wird automatisch korrekt geparst
+        date = new Date(dateStr)
+      } else {
+        // Anderes Format: versuche es trotzdem zu parsen
+        date = new Date(dateStr)
+      }
+      
+      // Prüfe ob das Datum gültig ist
+      if (isNaN(date.getTime())) {
+        return dateStr
+      }
+      
+      // Formatiere in lokaler Zeitzone
+      return date.toLocaleString('de-DE', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       })
     } catch {
       return dateStr
